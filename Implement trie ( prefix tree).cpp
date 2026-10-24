@@ -1,70 +1,26 @@
 
 class Trie {
 private:
-    struct Node {
-        Node* children[26];
-        bool isEnd;
-
-        Node() {
-            for (int i = 0; i < 26; i++) {
-                children[i] = nullptr;
-            }
-            isEnd = false;
-        }
-    };
-
-    Node* root;
+    set<string> words;
 
 public:
-    Trie() {
-        root = new Node();
-    }
+    Trie() {}
 
     void insert(string word) {
-        Node* curr = root;
-
-        for (char ch : word) {
-            int index = ch - 'a';
-
-            if (curr->children[index] == nullptr) {
-                curr->children[index] = new Node();
-            }
-
-            curr = curr->children[index];
-        }
-
-        curr->isEnd = true;
+        words.insert(word);
     }
 
     bool search(string word) {
-        Node* curr = root;
-
-        for (char ch : word) {
-            int index = ch - 'a';
-
-            if (curr->children[index] == nullptr) {
-                return false;
-            }
-
-            curr = curr->children[index];
-        }
-
-        return curr->isEnd;
+        return words.find(word) != words.end();
     }
 
     bool startsWith(string prefix) {
-        Node* curr = root;
-
-        for (char ch : prefix) {
-            int index = ch - 'a';
-
-            if (curr->children[index] == nullptr) {
-                return false;
+        for (string word : words) {
+            if (word.find(prefix) == 0) {
+                return true;
             }
-
-            curr = curr->children[index];
         }
 
-        return true;
+        return false;
     }
 };
